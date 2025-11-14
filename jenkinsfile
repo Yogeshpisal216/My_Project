@@ -1,0 +1,45 @@
+pipeline {
+    agent any  // Runs on any available agent
+
+    stages {
+        stage('Clone') {
+            steps {
+                // Clone your repository
+                git url: 'https://github.com/Yogeshpisal216/My_Project.git', branch: 'main'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                echo 'Building the project..'
+                
+                cd My_Project/nginx
+                docker build . -t nginx  
+               
+
+                cd ..
+                cd python
+                docker build . -t python
+                
+            }
+        }
+
+        stage('Push') {
+            steps {
+                echo 'Push to docker hub..'
+                
+
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                echo 'Deploying application..'
+
+                docker run -it --name nginx-con1 -d -p 80:80 nginx
+
+                docker run -it --name python-con2 -d -p 1010:5000 python
+            }
+        }
+    }
+}
