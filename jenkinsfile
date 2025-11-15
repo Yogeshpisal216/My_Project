@@ -28,6 +28,11 @@ pipeline {
             steps {
                 echo 'Push to docker hub..'
                 
+                sh "docker login -u yogi2112 -p <password>"
+                sh "docker tag nginx yogi2112/nginx:latest"
+                sh "docker push yogi2112/nginx:latest"
+                sh "docker tag nginx yogi2112/flask:latest"
+                sh "docker push yogi2112/flask:latest"
 
             }
         }
